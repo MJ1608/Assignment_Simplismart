@@ -8,7 +8,7 @@ pipeline {
     parameters {
         choice(
             name: 'ACTION',
-            choices: ['connect', 'apply', 'status'],
+            choices: ['install', 'create', 'status'],
             description: 'Choose which action to perform'
         )
         string(
