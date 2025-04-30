@@ -2,7 +2,7 @@
 
 set -e
 
-NAMESPACE="keda-app"
+NAMESPACE="simplismart"
 
 # Parse global flags
 while [[ "$1" =~ ^- ]]; do
@@ -151,21 +151,24 @@ function get_application_details() {
         echo "  No services found."
     fi
 
-    echo -e "\nHPA :"
-    local HPA_NAME=$(kubectl get hpa -n "$NAMESPACE" -o jsonpath="{.items[0].metadata.name}" 2>/dev/null || echo "")
-    if [ -n "$HPA_NAME" ]; then
-        local TARGET=$(kubectl get hpa "$HPA_NAME" -n "$NAMESPACE" -o jsonpath="{.spec.scaleTargetRef.name}")
-        local MINPODS=$(kubectl get hpa "$HPA_NAME" -n "$NAMESPACE" -o jsonpath="{.spec.minReplicas}")
-        local MAXPODS=$(kubectl get hpa "$HPA_NAME" -n "$NAMESPACE" -o jsonpath="{.spec.maxReplicas}")
-        local CURRENT=$(kubectl get hpa "$HPA_NAME" -n "$NAMESPACE" -o jsonpath="{.status.currentReplicas}")
-        echo "  HPA Name:     $HPA_NAME"
-        echo "  Target:       $TARGET"
-        echo "  Min Pods:     $MINPODS"
-        echo "  Max Pods:     $MAXPODS"
-        echo "  Current:      $CURRENT"
+    echo -e "\nScaledObject :"
+    local SCALEDOBJECT_NAME=$(kubectl get scaledobject -n "$NAMESPACE" -o jsonpath="{.items[0].metadata.name}" 2>/dev/null || echo "")
+    if [ -n "$SCALEDOBJECT_NAME" ]; then
+        local TARGET_NAME=$(kubectl get scaledobject "$SCALEDOBJECT_NAME" -n "$NAMESPACE" -o jsonpath="{.spec.scaleTargetRef.name}")
+        local MINPODS=$(kubectl get scaledobject "$SCALEDOBJECT_NAME" -n "$NAMESPACE" -o jsonpath="{.spec.minReplicaCount}")
+        local MAXPODS=$(kubectl get scaledobject "$SCALEDOBJECT_NAME" -n "$NAMESPACE" -o jsonpath="{.spec.maxReplicaCount}")
+        local TRIGGERS=$(kubectl get scaledobject "$SCALEDOBJECT_NAME" -n "$NAMESPACE" -o jsonpath="{.spec.triggers[*].type}" | tr ' ' ',')
+    
+        echo "  ScaledObject Name: $SCALEDOBJECT_NAME"
+        echo "  Target Kind:       $TARGET_KIND"
+        echo "  Target Name:       $TARGET_NAME"
+        echo "  Min Pods:          $MINPODS"
+        echo "  Max Pods:          $MAXPODS"
+        echo "  Triggers:          $TRIGGERS"
     else
-        echo "  No HPA found."
+        echo "  No ScaledObject found."
     fi
+
     
 
 }
