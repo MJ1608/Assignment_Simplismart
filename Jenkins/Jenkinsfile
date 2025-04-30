@@ -33,7 +33,7 @@ pipeline {
         stage('Validate Input') {
             steps {
                 script {
-                    if ((params.ACTION == 'apply' || params.ACTION == 'status') && params.NAMESPACE.trim() == '') {
+                    if ((params.ACTION == 'create' || params.ACTION == 'status') && params.NAMESPACE.trim() == '') {
                         error "Namespace must not be empty for action '${params.ACTION}'"
                     }
                 }
@@ -44,10 +44,10 @@ pipeline {
             steps {
                 script {
                     def scriptPath = './simplismart.sh'
-                    if (params.ACTION == 'connect') {
-                        sh "${scriptPath} connect"
-                    } else if (params.ACTION == 'apply') {
-                        sh "${scriptPath} -n ${params.NAMESPACE} apply"
+                    if (params.ACTION == 'install') {
+                        sh "${scriptPath} install"
+                    } else if (params.ACTION == 'create') {
+                        sh "${scriptPath} -n ${params.NAMESPACE} create"
                     } else if (params.ACTION == 'status') {
                         sh "${scriptPath} -n ${params.NAMESPACE} status"
                     } else {
