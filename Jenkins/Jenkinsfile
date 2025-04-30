@@ -18,8 +18,8 @@ node {
     def scriptPath = './home/mj/Assignment_Simplismart/simplismart.sh'
 
     stage('Checkout Code') {
-        // Replace with your repo URL
-        git url: 'https://github.com/MJ1608/Assignment_Simplismart.git'
+        git branch: 'main', url: 'https://github.com/MJ1608/Assignment_Simplismart.git'
+
     }
 
     stage('Make Script Executable') {
@@ -45,7 +45,7 @@ node {
     }
 
     stage('Post Result') {
-        echo "✅ Action '${params.ACTION}' completed."
+        echo "Action '${params.ACTION}' completed."
     }
 }
 
