@@ -195,10 +195,10 @@ function print_usage() {
     echo -e "Script Usage :"
 
     echo -e "1. To check connectivity towards Kubernetes, please execute the script with the connect argument as shown below:"
-    echo -e "./k8s-keda-manager.sh connect\n"
+    echo -e "./k8s-keda-manager.sh install\n"
 
     echo -e "2. To create deployment, services, and HPA, please execute the script with below two arguments :"
-    echo -e "./k8s-keda-manager.sh <-n namespace> apply\n"
+    echo -e "./k8s-keda-manager.sh <-n namespace> create\n"
 
     echo -e "3. To check the health status and metrics of the application, please execute the script with two arguments :"
     echo -e "./k8s-keda-manager.sh <-n namespace> status"
@@ -208,12 +208,12 @@ function print_usage() {
 
 # Dispatcher
 case "$1" in
-    connect)
+    install)
         connect_cluster
         install_helm
         install_keda
         ;;
-    apply)
+    create)
         create_application 
 		get_application_details 
         ;;
