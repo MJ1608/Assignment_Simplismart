@@ -110,7 +110,7 @@ Resources created in Namespace 'simplismart' with below details :
 Deployment:
   Name:         myapp
   Replicas:     1
-  Available:
+  Available:    1
 
 Service:
   Name:         myapp-svc
