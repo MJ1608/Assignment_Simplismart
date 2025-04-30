@@ -112,8 +112,8 @@ function create_application() {
         exit 1
     fi
 
-    if ! kubectl apply -n "$NAMESPACE" -f "$DEPLOY_PATH/hpa.yaml"; then
-        echo "Failed to apply HPA in namespace $NAMESPACE. Exiting..."
+    if ! kubectl apply -n "$NAMESPACE" -f "$DEPLOY_PATH/scaledObject.yaml"; then
+        echo "Failed to apply scaled object in namespace $NAMESPACE. Exiting..."
         exit 1
     fi
 
