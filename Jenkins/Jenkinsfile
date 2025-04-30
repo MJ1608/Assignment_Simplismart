@@ -1,51 +1,67 @@
-node {
-    // Define parameters
-    properties([
-        parameters([
-            choice(
-                name: 'ACTION',
-                choices: ['connect', 'apply', 'status'],
-                description: 'Choose which action to perform'
-            ),
-            string(
-                name: 'NAMESPACE',
-                defaultValue: 'keda-app',
-                description: 'Kubernetes namespace (only needed for apply/status)'
-            )
-        ])
-    ])
+pipeline {
+    agent any
 
-    def scriptPath = './simplismart.sh'
-
-    stage('Checkout Code') {
-        git branch: 'main', url: 'https://github.com/MJ1608/Assignment_Simplismart.git'
-
+    environment {
+        KUBECONFIG = '/var/lib/jenkins/.kube/config'
     }
 
-    stage('Make Script Executable') {
-        sh "chmod +x ${scriptPath}"
+    parameters {
+        choice(
+            name: 'ACTION',
+            choices: ['connect', 'apply', 'status'],
+            description: 'Choose which action to perform'
+        )
+        string(
+            name: 'NAMESPACE',
+            defaultValue: 'keda-app',
+            description: 'Kubernetes namespace (only needed for apply/status)'
+        )
     }
 
-    stage('Validate Input') {
-        if ((params.ACTION == 'apply' || params.ACTION == 'status') && params.NAMESPACE.trim() == '') {
-            error "Namespace must not be empty for action '${params.ACTION}'"
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/MJ1608/Assignment_Simplismart.git'
+            }
         }
-    }
 
-    stage('Run Action') {
-        if (params.ACTION == 'connect') {
-            sh "${scriptPath} connect"
-        } else if (params.ACTION == 'apply') {
-            sh "${scriptPath} -n ${params.NAMESPACE} apply"
-        } else if (params.ACTION == 'status') {
-            sh "${scriptPath} -n ${params.NAMESPACE} status"
-        } else {
-            error "Unknown action: ${params.ACTION}"
+        stage('Make Script Executable') {
+            steps {
+                sh 'chmod +x ./simplismart.sh'
+            }
         }
-    }
 
-    stage('Post Result') {
-        echo "Action '${params.ACTION}' completed."
+        stage('Validate Input') {
+            steps {
+                script {
+                    if ((params.ACTION == 'apply' || params.ACTION == 'status') && params.NAMESPACE.trim() == '') {
+                        error "Namespace must not be empty for action '${params.ACTION}'"
+                    }
+                }
+            }
+        }
+
+        stage('Run Action') {
+            steps {
+                script {
+                    def scriptPath = './simplismart.sh'
+                    if (params.ACTION == 'connect') {
+                        sh "${scriptPath} connect"
+                    } else if (params.ACTION == 'apply') {
+                        sh "${scriptPath} -n ${params.NAMESPACE} apply"
+                    } else if (params.ACTION == 'status') {
+                        sh "${scriptPath} -n ${params.NAMESPACE} status"
+                    } else {
+                        error "Unknown action: ${params.ACTION}"
+                    }
+                }
+            }
+        }
+
+        stage('Post Result') {
+            steps {
+                echo "Action '${params.ACTION}' completed."
+            }
+        }
     }
 }
-
