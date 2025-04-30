@@ -1,0 +1,138 @@
+Started by user Jasim
+
+Obtained Jenkins/Jenkinsfile from git https://github.com/MJ1608/Assignment_Simplismart.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins
+ in /var/lib/jenkins/workspace/simplismart
+[Pipeline] {
+
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+using credential myid
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/simplismart/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/MJ1608/Assignment_Simplismart.git # timeout=10
+Fetching upstream changes from https://github.com/MJ1608/Assignment_Simplismart.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.34.1'
+using GIT_ASKPASS to set credentials 
+ > git fetch --tags --force --progress -- https://github.com/MJ1608/Assignment_Simplismart.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision 74ff931cc25d15358507a222df743e6f11c5a731 (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 74ff931cc25d15358507a222df743e6f11c5a731 # timeout=10
+
+Commit message: "Jenkins File Update"
+ > git rev-list --no-walk 74ff931cc25d15358507a222df743e6f11c5a731 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+
+[Pipeline] {
+[Pipeline] withEnv
+
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout Code)
+[Pipeline] git
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/simplismart/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/MJ1608/Assignment_Simplismart.git # timeout=10
+Fetching upstream changes from https://github.com/MJ1608/Assignment_Simplismart.git
+ > git --version # timeout=10
+
+ > git --version # 'git version 2.34.1'
+ > git fetch --tags --force --progress -- https://github.com/MJ1608/Assignment_Simplismart.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision 74ff931cc25d15358507a222df743e6f11c5a731 (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 74ff931cc25d15358507a222df743e6f11c5a731 # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D main # timeout=10
+ > git checkout -b main 74ff931cc25d15358507a222df743e6f11c5a731 # timeout=10
+Commit message: "Jenkins File Update"
+
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Make Script Executable)
+[Pipeline] sh
++ chmod +x ./simplismart.sh
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Validate Input)
+[Pipeline] script
+
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run Action)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ ./simplismart.sh -n simplismart status
+
+=============================
+Deployment Status
+=============================
+
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+myapp   1/1     1            1           98s
+
+=============================
+Pod Status
+=============================
+NAME                     READY   STATUS    RESTARTS   AGE
+myapp-667ff8d48f-kjzk7   1/1     Running   0          98s
+
+=============================
+Resource Usage (CPU/Memory)
+=============================
+NAME                     CPU(cores)   MEMORY(bytes)   
+myapp-667ff8d48f-kjzk7   0m           13Mi            
+
+=============================
+Recent Events in Namespace
+=============================
+LAST SEEN   TYPE      REASON                OBJECT                        MESSAGE
+99s         Normal    Scheduled             pod/myapp-667ff8d48f-kjzk7    Successfully assigned simplismart/myapp-667ff8d48f-kjzk7 to docker-desktop
+99s         Normal    SuccessfulCreate      replicaset/myapp-667ff8d48f   Created pod: myapp-667ff8d48f-kjzk7
+99s         Normal    ScalingReplicaSet     deployment/myapp              Scaled up replica set myapp-667ff8d48f to 1
+96s         Normal    Pulling               pod/myapp-667ff8d48f-kjzk7    Pulling image "nginx:latest"
+93s         Normal    Pulled                pod/myapp-667ff8d48f-kjzk7    Successfully pulled image "nginx:latest" in 3.236s (3.236s including waiting)
+92s         Normal    Created               pod/myapp-667ff8d48f-kjzk7    Created container myapp
+91s         Normal    Started               pod/myapp-667ff8d48f-kjzk7    Started container myapp
+22s         Warning   ScaledObjectDeleted   scaledobject/myapp-scaler     ScaledObject was deleted
+[Pipeline] }
+[Pipeline] // script
+
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Post Result)
+[Pipeline] echo
+Action 'status' completed.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
+

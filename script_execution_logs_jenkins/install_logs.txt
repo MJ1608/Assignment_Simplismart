@@ -1,0 +1,108 @@
+ control plans running at e
+        ://kubernetes.docker.internal:6443
+reDNs running at ://kubernetes.docker.internal:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxt nd diagnose cluster problems, use 'kubectl cluster-info dump'.
+Connected to Kubernetes cluster
+
+=============================
+Installing Helm (if not present)
+=============================
+Helm already installed
+
+=============================
+Installing KEDA using Helm
+=============================
+
+Creating 'keda' namespace...
+namespace/keda created
+
+KEDA Helm repository already added.
+Updating Helm repositories...
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "kedacore" chart repository
+Update Complete. ⎈Happy Helming!⎈
+Installing KEDA...
+
+NAME: keda
+LAST DEPLOYED: Wed Apr 30 18:25:47 2025
+NAMESPACE: keda
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+:::^.     .::::^:     :::::::::::::::    .:::::::::.                   .^.                  
+7???~   .^7????~.     7??????????????.   :?????????77!^.              .7?7.                 
+7???~  ^7???7~.       ~!!!!!!!!!!!!!!.   :????!!!!7????7~.           .7???7.                
+7???~^7????~.                            :????:    :~7???7.         :7?????7.               
+7???7????!.           ::::::::::::.      :????:      .7???!        :7??77???7.              
+7????????7:           7???????????~      :????:       :????:      :???7?5????7.             
+7????!~????^          !77777777777^      :????:       :????:     ^???7?#P7????7.            
+7???~  ^????~                            :????:      :7???!     ^???7J#@J7?????7.           
+7???~   :7???!.                          :????:   .:~7???!.    ~???7Y&@#7777????7.          
+7???~    .7???7:      !!!!!!!!!!!!!!!    :????7!!77????7^     ~??775@@@GJJYJ?????7.         
+7???~     .!????^     7?????????????7.   :?????????7!~:      !????G@@@@@@@@5??????7:        
+::::.       :::::     :::::::::::::::    .::::::::..        .::::JGGGB@@@&7:::::::::        
+                                                                      ?@@#~                  
+                                                                      P@B^                   
+                                                                    :&G:                    
+                                                                    !5.                     
+                                                                    .Kubernetes Event-driven Autoscaling (KEDA) - Application autoscaling made simple.
+
+Get started by deploying Scaled Objects to your cluster:
+    - Information about Scaled Objects : https://keda.sh/docs/latest/concepts/
+    - Samples: https://github.com/kedacore/samples
+
+Get information about the deployed ScaledObjects:
+  kubectl get scaledobject [--namespace <namespace>]
+
+Get details about a deployed ScaledObject:
+  kubectl describe scaledobject <scaled-object-name> [--namespace <namespace>]
+
+Get information about the deployed ScaledObjects:
+  kubectl get triggerauthentication [--namespace <namespace>]
+
+Get details about a deployed ScaledObject:
+  kubectl describe triggerauthentication <trigger-authentication-name> [--namespace <namespace>]
+
+Get an overview of the Horizontal Pod Autoscalers (HPA) that KEDA is using behind the scenes:
+  kubectl get hpa [--all-namespaces] [--namespace <namespace>]
+
+Learn more about KEDA:
+- Documentation: https://keda.sh/
+- Support: https://keda.sh/support/
+- File an issue: https://github.com/kedacore/keda/issues/new/choose
+Waiting for KEDA operator to become ready...
+
+Waiting for deployment "keda-operator" rollout to finish: 0 of 1 updated replicas are available...
+
+deployment "keda-operator" successfully rolled out
+
+Ensuring that the KEDA operator is running.
+
+NAME                                             READY   STATUS    RESTARTS      AGE
+keda-admission-webhooks-69dc85dfcc-w4fm5         1/1     Running   0             65s
+keda-operator-554cb64d9c-ssg4n                   1/1     Running   1 (48s ago)   66s
+keda-operator-metrics-apiserver-58f44c77-g9m8d   1/1     Running   0             66s
+
+KEDA installation completed.
+
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Post Result)
+[Pipeline] echo
+Action 'install' completed.
+[Pipeline] }
+
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+
+Finished: SUCCESS
+

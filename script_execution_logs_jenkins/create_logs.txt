@@ -1,0 +1,133 @@
+Started by user Jasim
+
+Obtained Jenkins/Jenkinsfile from git https://github.com/MJ1608/Assignment_Simplismart.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins
+ in /var/lib/jenkins/workspace/simplismart
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+using credential myid
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/simplismart/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/MJ1608/Assignment_Simplismart.git # timeout=10
+Fetching upstream changes from https://github.com/MJ1608/Assignment_Simplismart.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.34.1'
+using GIT_ASKPASS to set credentials 
+ > git fetch --tags --force --progress -- https://github.com/MJ1608/Assignment_Simplismart.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision 74ff931cc25d15358507a222df743e6f11c5a731 (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 74ff931cc25d15358507a222df743e6f11c5a731 # timeout=10
+Commit message: "Jenkins File Update"
+ > git rev-list --no-walk 74ff931cc25d15358507a222df743e6f11c5a731 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout Code)
+[Pipeline] git
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/simplismart/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/MJ1608/Assignment_Simplismart.git # timeout=10
+Fetching upstream changes from https://github.com/MJ1608/Assignment_Simplismart.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.34.1'
+ > git fetch --tags --force --progress -- https://github.com/MJ1608/Assignment_Simplismart.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision 74ff931cc25d15358507a222df743e6f11c5a731 (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 74ff931cc25d15358507a222df743e6f11c5a731 # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D main # timeout=10
+ > git checkout -b main 74ff931cc25d15358507a222df743e6f11c5a731 # timeout=10
+Commit message: "Jenkins File Update"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Make Script Executable)
+[Pipeline] sh
++ chmod +x ./simplismart.sh
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Validate Input)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run Action)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ ./simplismart.sh -n simplismart create
+
+=============================
+Creating resources in namespace simplismart
+=============================
+namespace/simplismart created
+Namespace 'simplismart' created successfully.
+
+Creating deployment of the application
+deployment.apps/myapp created
+
+Creating service of the application for external access
+service/myapp-svc created
+
+Creating keda auto scaler to handle load on the application
+Warning: Detected changes to resource myapp-scaler which is currently being deleted.
+scaledobject.keda.sh/myapp-scaler unchanged
+
+Resources created in Namespace 'simplismart' with below details :
+
+Deployment:
+  Name:         myapp
+  Replicas:     1
+  Available:    1
+
+Service:
+  Name:         myapp-svc
+  Type:         NodePort
+  Cluster IP:   10.103.93.99
+  Node Port:    30080
+
+ScaledObject :
+  ScaledObject Name: myapp-scaler
+  Target Kind:       
+  Target Name:       myapp
+  Min Pods:          1
+  Max Pods:          5
+  Triggers:          kafka,cpu
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Post Result)
+[Pipeline] echo
+Action 'create' completed.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
+
