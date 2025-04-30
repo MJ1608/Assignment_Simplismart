@@ -73,10 +73,15 @@ function install_keda() {
 
     # Wait for operator to be ready
     echo "Waiting for KEDA operator to become ready..."
-        sleep 10
+       sleep 10
     kubectl rollout status deployment/keda-operator -n keda
+    
+    # verify keda operator is running
+    echo -e "\nEnsuring that the KEDA operator is running."
+    sleep 20
+    kubectl get pods -n keda
 
-    echo "KEDA installation completed."
+    echo -e "\nKEDA installation completed."
 }
 
 
@@ -102,16 +107,19 @@ function create_application() {
     fi
 
     # Apply deployment, service, and HPA YAML files
+    echo -e "\nCreating deployment of the application"
     if ! kubectl apply -n "$NAMESPACE" -f "$DEPLOY_PATH/deployment.yaml"; then
         echo "Failed to apply deployment in namespace $NAMESPACE. Exiting..."
         exit 1
     fi
-
+    
+    echo -e "\nCreating service of the application for external access"
     if ! kubectl apply -n "$NAMESPACE" -f "$DEPLOY_PATH/service.yaml"; then
         echo "Failed to apply service in namespace $NAMESPACE. Exiting..."
         exit 1
     fi
-
+     
+    echo -e "\nCreating keda auto scaler to handle load on the application"
     if ! kubectl apply -n "$NAMESPACE" -f "$DEPLOY_PATH/scaledObject.yaml"; then
         echo "Failed to apply scaled object in namespace $NAMESPACE. Exiting..."
         exit 1
@@ -129,6 +137,7 @@ function get_application_details() {
     local DEPLOYMENT_NAME=$(kubectl get deployments -n "$NAMESPACE" -o jsonpath="{.items[0].metadata.name}" 2>/dev/null || echo "")
     if [ -n "$DEPLOYMENT_NAME" ]; then
         local REPLICAS=$(kubectl get deployment "$DEPLOYMENT_NAME" -n "$NAMESPACE" -o jsonpath="{.status.replicas}")
+        sleep 15
         local AVAILABLE=$(kubectl get deployment "$DEPLOYMENT_NAME" -n "$NAMESPACE" -o jsonpath="{.status.availableReplicas}")
         echo "  Name:         $DEPLOYMENT_NAME"
         echo "  Replicas:     $REPLICAS"

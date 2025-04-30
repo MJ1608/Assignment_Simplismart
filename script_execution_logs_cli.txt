@@ -1,0 +1,164 @@
+mj@DESKTOP-CBDP6A2:~/Assignment_Simplismart$ ./simplismart.sh install
+
+============================
+Verifying Kubernetes cluster connectivity
+============================
+Kubernetes control plane is running at https://kubernetes.docker.internal:6443
+CoreDNS is running at https://kubernetes.docker.internal:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+Connected to Kubernetes cluster
+
+============================
+Installing Helm (if not present)
+============================
+Helm already installed
+
+============================
+Installing KEDA using Helm
+============================
+Creating 'keda' namespace...
+namespace/keda created
+KEDA Helm repository already added.
+Updating Helm repositories...
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "kedacore" chart repository
+Update Complete. ⎈Happy Helming!⎈
+Installing KEDA...
+NAME: keda
+LAST DEPLOYED: Wed Apr 30 17:46:23 2025
+NAMESPACE: keda
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+:::^.     .::::^:     :::::::::::::::    .:::::::::.                   .^.
+7???~   .^7????~.     7??????????????.   :?????????77!^.              .7?7.
+7???~  ^7???7~.       ~!!!!!!!!!!!!!!.   :????!!!!7????7~.           .7???7.
+7???~^7????~.                            :????:    :~7???7.         :7?????7.
+7???7????!.           ::::::::::::.      :????:      .7???!        :7??77???7.
+7????????7:           7???????????~      :????:       :????:      :???7?5????7.
+7????!~????^          !77777777777^      :????:       :????:     ^???7?#P7????7.
+7???~  ^????~                            :????:      :7???!     ^???7J#@J7?????7.
+7???~   :7???!.                          :????:   .:~7???!.    ~???7Y&@#7777????7.
+7???~    .7???7:      !!!!!!!!!!!!!!!    :????7!!77????7^     ~??775@@@GJJYJ?????7.
+7???~     .!????^     7?????????????7.   :?????????7!~:      !????G@@@@@@@@5??????7:
+::::.       :::::     :::::::::::::::    .::::::::..        .::::JGGGB@@@&7:::::::::
+                                                                      ?@@#~
+                                                                      P@B^
+                                                                    :&G:
+                                                                    !5.
+                                                                    .Kubernetes Event-driven Autoscaling (KEDA) - Application autoscaling made simple.
+
+Get started by deploying Scaled Objects to your cluster:
+    - Information about Scaled Objects : https://keda.sh/docs/latest/concepts/
+    - Samples: https://github.com/kedacore/samples
+
+Get information about the deployed ScaledObjects:
+  kubectl get scaledobject [--namespace <namespace>]
+
+Get details about a deployed ScaledObject:
+  kubectl describe scaledobject <scaled-object-name> [--namespace <namespace>]
+
+Get information about the deployed ScaledObjects:
+  kubectl get triggerauthentication [--namespace <namespace>]
+
+Get details about a deployed ScaledObject:
+  kubectl describe triggerauthentication <trigger-authentication-name> [--namespace <namespace>]
+
+Get an overview of the Horizontal Pod Autoscalers (HPA) that KEDA is using behind the scenes:
+  kubectl get hpa [--all-namespaces] [--namespace <namespace>]
+
+Learn more about KEDA:
+- Documentation: https://keda.sh/
+- Support: https://keda.sh/support/
+- File an issue: https://github.com/kedacore/keda/issues/new/choose
+Waiting for KEDA operator to become ready...
+Waiting for deployment "keda-operator" rollout to finish: 0 of 1 updated replicas are available...
+deployment "keda-operator" successfully rolled out
+
+Ensuring that the KEDA operator is running.
+NAME                                             READY   STATUS    RESTARTS      AGE
+keda-admission-webhooks-69dc85dfcc-m4tzx         1/1     Running   0             60s
+keda-operator-554cb64d9c-m289t                   1/1     Running   1 (49s ago)   60s
+keda-operator-metrics-apiserver-58f44c77-bjfz2   1/1     Running   0             60s
+
+KEDA installation completed.
+mj@DESKTOP-CBDP6A2:~/Assignment_Simplismart$
+mj@DESKTOP-CBDP6A2:~/Assignment_Simplismart$
+mj@DESKTOP-CBDP6A2:~/Assignment_Simplismart$
+mj@DESKTOP-CBDP6A2:~/Assignment_Simplismart$
+mj@DESKTOP-CBDP6A2:~/Assignment_Simplismart$ ./simplismart.sh -n simplismart create
+
+============================
+Creating resources in namespace simplismart
+============================
+namespace/simplismart created
+Namespace 'simplismart' created successfully.
+
+Creating deployment of the application
+deployment.apps/myapp created
+
+Creating service of the application for external access
+service/myapp-svc created
+
+Creating keda auto scaler to handle load on the application
+scaledobject.keda.sh/myapp-scaler created
+
+Resources created in Namespace 'simplismart' with below details :
+
+Deployment:
+  Name:         myapp
+  Replicas:     1
+  Available:
+
+Service:
+  Name:         myapp-svc
+  Type:         NodePort
+  Cluster IP:   10.101.21.103
+  Node Port:    30080
+
+ScaledObject :
+  ScaledObject Name: myapp-scaler
+  Target Kind:
+  Target Name:       myapp
+  Min Pods:          1
+  Max Pods:          5
+  Triggers:          kafka,cpu
+mj@DESKTOP-CBDP6A2:~/Assignment_Simplismart$
+mj@DESKTOP-CBDP6A2:~/Assignment_Simplismart$
+mj@DESKTOP-CBDP6A2:~/Assignment_Simplismart$
+mj@DESKTOP-CBDP6A2:~/Assignment_Simplismart$ ./simplismart.sh -n simplismart status
+
+============================
+Deployment Status
+============================
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+myapp   1/1     1            1           36s
+
+============================
+Pod Status
+============================
+NAME                     READY   STATUS    RESTARTS   AGE
+myapp-667ff8d48f-c5dnq   1/1     Running   0          35s
+
+============================
+Resource Usage (CPU/Memory)
+============================
+NAME                     CPU(cores)   MEMORY(bytes)
+myapp-667ff8d48f-c5dnq   0m           13Mi
+
+============================
+Recent Events in Namespace
+============================
+LAST SEEN   TYPE      REASON                    OBJECT                        MESSAGE
+35s         Normal    Scheduled                 pod/myapp-667ff8d48f-c5dnq    Successfully assigned simplismart/myapp-667ff8d48f-c5dnq to docker-desktop
+36s         Normal    SuccessfulCreate          replicaset/myapp-667ff8d48f   Created pod: myapp-667ff8d48f-c5dnq
+36s         Normal    ScalingReplicaSet         deployment/myapp              Scaled up replica set myapp-667ff8d48f to 1
+32s         Normal    Pulling                   pod/myapp-667ff8d48f-c5dnq    Pulling image "nginx:latest"
+29s         Normal    Pulled                    pod/myapp-667ff8d48f-c5dnq    Successfully pulled image "nginx:latest" in 3.373s (3.373s including waiting)
+28s         Normal    Created                   pod/myapp-667ff8d48f-c5dnq    Created container myapp
+28s         Normal    Started                   pod/myapp-667ff8d48f-c5dnq    Started container myapp
+11s         Warning   KEDAScalerFailed          scaledobject/myapp-scaler     error creating kafka client: kafka: client has run out of available brokers to talk to: dial tcp [::1]:9092: connect: connection refused
+11s         Warning   ScaledObjectCheckFailed   scaledobject/myapp-scaler     failed to ensure HPA is correctly created for ScaledObject
+mj@DESKTOP-CBDP6A2:~/Assignment_Simplismart$
