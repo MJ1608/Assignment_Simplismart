@@ -1,0 +1,20 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: myapp-scaler
+spec:
+  scaleTargetRef:
+    name: myapp  
+  minReplicaCount: 1
+  maxReplicaCount: 5
+  triggers:
+  - type: kafka
+    metadata:
+      bootstrapServers: "localhost:9092"  
+      topic: "my_topic"  
+      consumerGroup: "my_consumerGroup"  
+      lagThreshold: "1000"  
+  - type: cpu
+    metadata:
+      type: Utilization
+      value: "50"
