@@ -13,7 +13,6 @@ pipeline {
         )
         string(
             name: 'NAMESPACE',
-            defaultValue: 'keda-app',
             description: 'Kubernetes namespace (only needed for apply/status)'
         )
     }
