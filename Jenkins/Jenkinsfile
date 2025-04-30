@@ -15,7 +15,7 @@ node {
         ])
     ])
 
-    def scriptPath = './simplismart.sh'
+    def scriptPath = './home/mj/Assignment_Simplismart/simplismart.sh'
 
     stage('Checkout Code') {
         // Replace with your repo URL
