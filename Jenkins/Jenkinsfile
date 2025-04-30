@@ -15,7 +15,7 @@ node {
         ])
     ])
 
-    def scriptPath = './home/mj/Assignment_Simplismart/simplismart.sh'
+    def scriptPath = './simplismart.sh'
 
     stage('Checkout Code') {
         git branch: 'main', url: 'https://github.com/MJ1608/Assignment_Simplismart.git'
