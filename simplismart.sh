@@ -184,6 +184,12 @@ function get_application_details() {
 
 
 function get_health_status() {
+    # Check if the namespace exists
+    if ! kubectl get namespace "$NAMESPACE" >/dev/null 2>&1; then
+        echo "Namespace '$NAMESPACE' does not exist. Terminating script."
+        exit 1
+    fi
+
     local DEPLOY_NAME=$(kubectl get deployments -n "$NAMESPACE" -o jsonpath="{.items[0].metadata.name}" 2>/dev/null || echo "")
 
     print_header "Deployment Status"
@@ -192,13 +198,13 @@ function get_health_status() {
     print_header "Pod Status"
     kubectl get pods -l app="$DEPLOY_NAME" -n "$NAMESPACE"
 
-
     print_header "Resource Usage (CPU/Memory)"
-    kubectl top pods -l app="$DEPLOY_NAME" -n "$NAMESPACE" || echo "⚠️  Metrics server might not be installed or is not working."
+    kubectl top pods -l app="$DEPLOY_NAME" -n "$NAMESPACE" || echo "Metrics server might not be installed or is not working."
 
     print_header "Recent Events in Namespace"
     kubectl get events -n "$NAMESPACE" --sort-by=.lastTimestamp | tail -n 20
 }
+
 
 function print_usage() {
     echo -e "Script Usage :"
